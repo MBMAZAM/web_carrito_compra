@@ -1,9 +1,9 @@
 import { PropTypes } from 'prop-types';
 
 
-export const Guitar = ({guitar, setCart, addToCart}) => {
+export const Guitar = ({guitar, addToCart}) => {
 
-  const {id, name, description, price, image} = guitar;
+  const { name, description, price, image} = guitar;
 
 
   // const handleClick = (guitar) => {
@@ -41,7 +41,6 @@ export const Guitar = ({guitar, setCart, addToCart}) => {
 
 Guitar.propTypes = {
   guitar: PropTypes.object.isRequired,
-  setCart: PropTypes.func.isRequired,
   addToCart: PropTypes.func.isRequired
 
 }
