@@ -1,12 +1,14 @@
 import { PropTypes } from "prop-types";
+import { useMemo } from "react";
 
-export const Header = ({ cart }) => {
+export const Header = ({ cart, removeFromCart, increaseQuantity, decreaseQuantity, clearCart }) => {
 
-  const isEmpty = () => cart.length === 0;
+  // State Derivado, Función que retorna un valor derivado de un estado
 
-  // const cartTotal = ()
+  // Cuando este con el useMemo, se borra los parentesis de cart en el return 
+  const isEmpty = useMemo(() => cart.length === 0, [cart]);
 
-
+  const cartTotal = useMemo(() => cart.reduce((total, item) => total + (item.price * item.cantidad), 0), [cart])
 
   return (
     <header className="py-5 header">
@@ -28,9 +30,10 @@ export const Header = ({ cart }) => {
                 src="./img/carrito.png"
                 alt="imagen carrito"
               />
+              
 
               <div id="carrito" className="bg-white p-3">
-                { isEmpty() ? (
+                { isEmpty ? (
                   <p className="text-center mt-3">El carrito esta vacio</p>
                 ) : (
                   <>
@@ -57,16 +60,16 @@ export const Header = ({ cart }) => {
                             <td>{guitar.name}</td>
                             <td className="fw-bold">${guitar.price}</td>
                             <td className="flex align-items-start gap-4">
-                              <button type="button" className="btn btn-dark">
+                              <button type="button" className="btn btn-dark" onClick={()=> decreaseQuantity(guitar.id)}>
                                 -
                               </button>
                               {guitar.cantidad}
-                              <button type="button" className="btn btn-dark">
+                              <button type="button" className="btn btn-dark" onClick={() => increaseQuantity(guitar.id)}>
                                 +
                               </button>
                             </td>
                             <td>
-                              <button className="btn btn-danger" type="button">
+                              <button className="btn btn-danger" type="button" onClick={() => removeFromCart(guitar.id)}>
                                 X
                               </button>
                             </td>
@@ -75,9 +78,9 @@ export const Header = ({ cart }) => {
                       </tbody>
                     </table>
                     <p className="text-end">
-                      Total pagar: <span className="fw-bold">$899</span>
+                      Total pagar: <span className="fw-bold">${cartTotal}</span>
                     </p>
-                    <button className="btn btn-dark w-100 mt-3 p-2">
+                    <button className="btn btn-dark w-100 mt-3 p-2" onClick={() => clearCart()}>
                       Vaciar Carrito
                     </button>
                   </>
@@ -93,4 +96,8 @@ export const Header = ({ cart }) => {
 
 Header.propTypes = {
   cart: PropTypes.array.isRequired,
+  removeFromCart: PropTypes.func.isRequired,
+  increaseQuantity: PropTypes.func.isRequired,
+  decreaseQuantity: PropTypes.func.isRequired,
+  clearCart: PropTypes.func.isRequired,
 };
