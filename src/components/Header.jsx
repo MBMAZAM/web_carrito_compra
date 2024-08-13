@@ -1,14 +1,20 @@
 import { PropTypes } from "prop-types";
-import { useMemo } from "react";
 
-export const Header = ({ cart, removeFromCart, increaseQuantity, decreaseQuantity, clearCart }) => {
+
+export const Header = ({ 
+  cart, 
+  removeFromCart, 
+  increaseQuantity, 
+  decreaseQuantity, 
+  clearCart, 
+  isEmpty, 
+  cartTotal 
+}) => {
 
   // State Derivado, Función que retorna un valor derivado de un estado
 
   // Cuando este con el useMemo, se borra los parentesis de cart en el return 
-  const isEmpty = useMemo(() => cart.length === 0, [cart]);
-
-  const cartTotal = useMemo(() => cart.reduce((total, item) => total + (item.price * item.cantidad), 0), [cart])
+  
 
   return (
     <header className="py-5 header">
@@ -100,4 +106,6 @@ Header.propTypes = {
   increaseQuantity: PropTypes.func.isRequired,
   decreaseQuantity: PropTypes.func.isRequired,
   clearCart: PropTypes.func.isRequired,
+  isEmpty: PropTypes.bool.isRequired,
+  cartTotal: PropTypes.number.isRequired,
 };
